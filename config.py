@@ -1,5 +1,5 @@
 import logging
-# Video instructions may not match this file as update are constant Kp Ki Kp has been moved to the top of the config file for eay of use.
+# Video instructions may not match this file as updates are constant, Kp Ki Kp has been moved to the top of the config file for ease of use.
 ########################################################################
 #   Nemesis PI Comes Set up For Kilns Just Auto Tune and paste figures below as per instructions
 #   Talking kiln controller only works in manual start up of Nemesis PI(not auto boot)bluetooth does not currently work please use HTMI or audio out jack
@@ -28,7 +28,7 @@ pid_ki = 0.0  # Integration    #Enter I Results From Terminal here after Auto Tu
 pid_kd = 0.0  # Derivative     #Enter D Results From Terminal here after Auto Tune See Manual
 
 tune_target_temp = 500         #Enter your required Tuning temperature here
-tune_cycles = 6                #Enter amount of tuning cycles here 
+tune_cycles = 8                #Enter amount of tuning cycles here 
 
 emergency_shutoff_temp = 1320  #Put in a High Limit Onced reached it stops program and heat is turned off
 thermocouple_offset = 0        #For adjusting an Thermocouple offset if calibration is out
@@ -92,7 +92,7 @@ gpio_cool = 21  # Regulates PWM for 12V DC Blower
 gpio_air  = 16   # Switches 0-phase det. solid-state-relay
 gpio_beeper = 6  # Switches beeper
 
-heater_invert = 0 # switches the polarity of the heater control 0 for SSR Heat
+heater_invert = 0 # switches the polarity of the heater control 0 for SSR Heat 1 for Relay 
 
 ### Inputs
 door_enabled = False	# Enable sensor for door open

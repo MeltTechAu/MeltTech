@@ -97,9 +97,10 @@ Super quick install copy paste 4 lines below at once into terminal          not 
 * git clone https://github.com/Brett308/NemesisPI.git
 * sudo su
 * update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+* cd NemesisPI
 * pip3 install -r requirements.txt
-
-
+* python picoreflowd.py  
+ 
 For more updated help see Nemesis Pi help page as things change in the operating system from time to time we 
 update as fast as we can to make sure all is working
 

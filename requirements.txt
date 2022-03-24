@@ -1,0 +1,13 @@
+websocket-client
+bottle==0.12.19
+evdev==1.1.2
+gevent==21.12.0
+gevent-websocket==0.10.1
+greenlet==1.1.2
+onboard==1.4.1
+pygame==2.0.0
+RPi.GPIO==0.7.0
+zope.event==4.5.0
+zope.interface==5.4.0
+
+

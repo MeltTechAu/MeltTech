@@ -1,4 +1,4 @@
-websocket-client
+libsdl2-mixer-2.0-0
 bottle==0.12.19
 evdev==1.1.2
 gevent==21.12.0
@@ -9,5 +9,5 @@ pygame==2.0.0
 RPi.GPIO==0.7.0
 zope.event==4.5.0
 zope.interface==5.4.0
-libsdl2-mixer-2.0-0
+
 

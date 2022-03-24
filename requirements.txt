@@ -1,4 +1,4 @@
-libsdl2-mixer-2.0-0
+
 bottle==0.12.19
 evdev==1.1.2
 gevent==21.12.0

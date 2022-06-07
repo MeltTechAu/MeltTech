@@ -4,7 +4,7 @@ import os
 import sys
 import logging
 import json
-import pygame
+#import pygame
 import bottle
 import gevent
 import geventwebsocket
@@ -25,11 +25,11 @@ except:
 logging.basicConfig(level=config.log_level, format=config.log_format)
 log = logging.getLogger("picoreflowd")
 log.info("Starting picoreflowd")
-pygame.mixer.init()
-pygame.mixer.music.load("/home/pi/NemesisPI/sounds/welcome.wav")
-pygame.mixer.music.play()
-while pygame.mixer.music.get_busy() == True:
-    continue
+#pygame.mixer.init()
+#pygame.mixer.music.load("/home/pi/NemesisPI/sounds/welcome.wav")
+#pygame.mixer.music.play()
+#while pygame.mixer.music.get_busy() == True:
+#    continue
 script_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, script_dir + '/lib/')
 profile_path = os.path.join(script_dir, "storage", "profiles")

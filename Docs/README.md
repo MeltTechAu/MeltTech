@@ -21,16 +21,17 @@ This software Perfect for controlling a electric kiln and is works reliably with
 The added options make it suitable for a much wider range of thermal control.
 
 26/01/21 added Hot Links to make getting Help and Firing Profiles for your Nemesis PI controller easier and added multi configs for easy copy and paste for Heat Treatment kilns as they do long holds at many different temperatures easy as copying and pasting config then restart controller to take effect quicker than having to constantly auto tuning kilns like simple PID controllers takes just 1 minute instead of some times hours like older controllers
-
+7/6/22
+Removed talking from controller make more user friendly talking has been hashed out can be unhashed but directory pointing needs to be specific with pygame.
+so we decide to remove it at present until the problem is rectified
+.
 Has error codes and will stop on errors for "safety" for max 31855k current driver supported module more coming soon very soon type k , n , r ,s ,j ,t, etc
 NO connection     Thermocouple sensor break
 Short to ground   Thermocouple short to ground     Grounding on metal case of kiln
 Short to Vcc      Thermocouple picking up voltage from elements,old insulation or thermoouple close to elements small voltage can make errors in temperature readings.
 
 Error Fault code 4 = Temperature reading 4 deg C means line fault or thermocouple board issue
-
-
-Much much more coming soon all avaliable via updating 
+Any High Temperature errors can be fixed via earthing out the positive of the thermcouple to the kiln case. 
 
 Just keep your controller software updated ,come back from time to time to see the advancements we are making!!!
 
@@ -66,7 +67,7 @@ Thats it now you can start the controller see full manual other options SUCH AS 
 
 Step 2)
 Manual Server Startup
-Copy lines below and paste in terminal press enter 
+Copy lines below and paste in terminal press enter or click on icon NP icon in nemesis pi directory better still copy to desktop
 
 cd NemesisPI
 python picoreflowd.py

@@ -183,19 +183,8 @@ class Oven (threading.Thread):
 
         while True:
 
-            now = datetime.datetime.now()
+
             
-            #Log Data:
-            with open("log_{0}.txt".format(now.strftime("")), "a") as filelog:
-                filelog.write("".format(
-                    now.strftime(""),
-                    self.temp_sensor.temperature,
-                    self.target,
-                    self.heat))
-
-            self.door = self.get_door_state()
-
-
             if self.state == Oven.STATE_TUNING:
 
                 log.debug("running at %.1f deg C (Target: %.1f) , heat %.2f, cool %.2f, air %.2f, door %s (%.1fs/%.0f)" %

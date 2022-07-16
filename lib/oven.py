@@ -158,7 +158,7 @@ class Oven (threading.Thread):
         self.state = Oven.STATE_TUNING
         self.start_time = datetime.datetime.now()
         self.heatOn = True
-        self.heat = 0.8       ##Marlin starts at 50%. What happens if this isn't enough to hit the target?
+        self.heat = 0.8       #80% Power. This seems to be perfect for most kilns to 500Degrees C which is the best temp to tune at.
         self.bias = .4
         self.tunecycles = n_cycles
         self.d = .4
@@ -279,7 +279,7 @@ class Oven (threading.Thread):
                         temperature_count += 1 ##rename this variable
                     else:
                         temperature_count = 0
-                    # If the heat is on and nothing is changing, reset
+                    # If the heat is on and nothing is changing, reset. increase this number if ending schedule early moving it to config file soon 90 seems good if you have no spikes or interference
                     # The direction or amount of change does not matter
                     # This prevents runaway in the event of a sensor read failure
                     if temperature_count > 90:

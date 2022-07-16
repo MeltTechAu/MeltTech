@@ -1,0 +1,13 @@
+
+Copy the 2 Lines at the bottom of this file into Terminal Press enter to start the controller then the open web browser enter 127.0.0.1:8081 into address bar for local deployment on the MeltTech
+or Ip address for example 192.168.1.113:8081 whichyou can obtain in VNC/otherways to connect once obtained from your MeltTech enter on your PC/Mac phone tablet or Phone etc's web browser on the same Local network to view once below has been run in the Terminal
+Or Modify MeltTech.desktop file open with notepad or similar text editor ,where it says PutYourComputerNameHere put in what you called your Meltech when installing Operating System.
+Once Icon has been modifed copy it to your desktop for manual starting of controller backend just double click icon then click open in terminal,
+then open browser and add 127.0.0.1:8081 then bookmark for future ease of use,you can also make it your startup page in chrome so it opens straight into controller
+
+or copy below into Terminal to start controller aswell
+
+cd MeltTech
+python picoreflowd.py
+
+

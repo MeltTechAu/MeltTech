@@ -182,8 +182,8 @@ class Oven (threading.Thread):
         pid = 0
 
         while True:
-
             now = datetime.datetime.now()
+
 
             
             if self.state == Oven.STATE_TUNING:

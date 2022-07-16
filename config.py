@@ -131,7 +131,7 @@ must_hit_temp = False   #Default=False
 # For instance, setting to 0.4 will reduce the target temperature by 40 deg C if the final slope is 100 deg C/hour
 # lower than the profile slope
 # Only used if must_hit_temp is True
-cone_slope_adj = 0.3   #Default=0.0
+cone_slope_adj = 0.0   #Default=0.0
 
 ######################################################################## DO NOT USE YET!!!! if no WIFI kiln either goes Full On or Full OFF
 #   Logging parameters leave below as is at moment use live graph :)

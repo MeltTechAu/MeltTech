@@ -24,12 +24,12 @@ class OvenWatcher(threading.Thread):
                 if self.log_skip_counter==0:
                     self.last_log.append(oven_state)
             else:
-                self.recording = True
+                self.recording = False
             self.notify_all(oven_state)
             self.log_skip_counter = (self.log_skip_counter +1)%20
             time.sleep(self.oven.time_step)
     
-    def record(self, profile):
+    def record(self, profile = None):
         self.last_profile = profile
         self.last_log = []
         self.started = datetime.datetime.now()
@@ -65,7 +65,7 @@ class OvenWatcher(threading.Thread):
 
     def notify_all(self,message):
         message_json = json.dumps(message)
-        log.info("sending to %d clients: %s"%(len(self.observers),message_json))
+        log.debug("sending to %d clients: %s"%(len(self.observers),message_json))
         for wsock in self.observers:
             if wsock:
                 try:

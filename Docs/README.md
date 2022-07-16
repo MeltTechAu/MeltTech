@@ -9,7 +9,7 @@ Not Limited by stages and or programs ,you can have Thousands depending on PI4 m
 * Added a Thermocouple Offset     adjust if needed to calibrate
 * Removed CSV Logging MAKES IT SAFE NOT WRITING TO THE DISK! ACCESS LOGGING DATA IN TERMINAL CONTROLLER IS RUNNING IN only in manual mode or graph screen shot       will move to cloud. 
 * Use the Live graph to help diagnose loose thermocouple connections and kiln issues such as relays and element wear over time. 
-* Logging will be moved to online logging with the new app! Logging currently in manual mode in terminal when not auto booting controller.
+
 
 26/8/20
 * added 2 key press Stop Button option also setting up 2 and 3 zone removed simulate function still on single zone
@@ -32,7 +32,7 @@ NO connection     Thermocouple sensor break
 
 
 Error Fault code 4 = Temperature reading 4 deg C means line fault or thermocouple board issue
-Any High Temperature errors can be fixed via earthing out the positive of the thermcouple to the kiln case. 
+
 
 Just keep your controller software updated ,come back from time to time to see the advancements we are making!!!
 

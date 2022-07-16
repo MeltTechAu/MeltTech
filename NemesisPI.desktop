@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=MeltTech
-Comment=MeltTech Temp controller BP 2022
-Icon=/home/PutYourComputerNameHere/MeltTech/public/assets/images/MeltTech.xpm
-Exec=/usr/bin/python /home/PutYourComputerNameHere/MeltTech/picoreflowd.py
-Type=Application
-Encoding=UTF-8
-Terminal=true
-Categories=None;

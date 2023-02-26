@@ -9,7 +9,7 @@ import json
 import config
 import math
 import requests
-#import pygame
+import pygame
 from threading import Timer
 
 
@@ -73,7 +73,7 @@ except ImportError:
  
 
 class Oven (threading.Thread):
-
+    STATE_SCHEDULED = "SCHEDULED"
     STATE_IDLE = "IDLE"
     STATE_RUNNING = "RUNNING"
     STATE_TUNING = "TUNING"
@@ -140,18 +140,18 @@ class Oven (threading.Thread):
         self.state = Oven.STATE_RUNNING
         self.pid.reset()
         log.info("Starting")
-#        pygame.mixer.init()
-#        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/start_run.wav")
-#        pygame.mixer.music.play()
-#        while pygame.mixer.music.get_busy() == True:
-#            continue
+        pygame.mixer.init()
+        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/start_run.wav")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+            continue
 
     def abort_run(self):
-#        pygame.mixer.init()
-#        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/run_stopped.wav")
-#        pygame.mixer.music.play()
-#        while pygame.mixer.music.get_busy() == True:
-#           continue
+        pygame.mixer.init()
+        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/run_stopped.wav")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+           continue
         self.reset()
 
     def scheduled_run(self, start_datetime, profile, run_trigger, startat=0):
@@ -190,11 +190,11 @@ class Oven (threading.Thread):
         n_cycles = config.tune_cycles
 
         log.info("Running auto-tune algorithm. Target: %.0f deg C, Cycles: %.0f", temp_target, n_cycles);
-#        pygame.mixer.init()
-#        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/auto_tuning.wav")
-#        pygame.mixer.music.play()
-#        while pygame.mixer.music.get_busy() == True:
-#           continue
+        pygame.mixer.init()
+        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/auto_tuning.wav")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+           continue
 
         self.state = Oven.STATE_TUNING
         self.start_time = datetime.datetime.now()
@@ -223,13 +223,23 @@ class Oven (threading.Thread):
         pid = 0
 
         while True:
+
             now = datetime.datetime.now()
             
+            #Log Data:
+            with open("/home/melttech//NemesisPI/storage/logs/log_{0}.txt".format(now.strftime("")), "a") as filelog:
+                filelog.write("".format(
+                    now.strftime(""),
+                    self.temp_sensor.temperature,
+                    self.target,
+                    self.heat))
+
+            self.door = self.get_door_state()
 
 
             if self.state == Oven.STATE_TUNING:
 
-                log.info("running at %.1f deg C (Target: %.1f) , heat %.2f, cool %.2f, air %.2f, door %s (%.1fs/%.0f)" %
+                log.debug("running at %.1f deg C (Target: %.1f) , heat %.2f, cool %.2f, air %.2f, door %s (%.1fs/%.0f)" %
                          (self.temp_sensor.temperature, self.target, self.heat, self.cool, self.air, self.door,
                           self.runtime,
                           self.totaltime))
@@ -286,11 +296,11 @@ class Oven (threading.Thread):
                     self.pid.Kd = Kd
                     log.info("Tuning Complete.")
                     log.info("Make these values permanent by entering them in to the config.py file.")
-#                    pygame.mixer.init()
-#                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/auto_tuning_complete.wav")
-#                    pygame.mixer.music.play()
-#                    while pygame.mixer.music.get_busy() == True:
-#                        continue
+                    pygame.mixer.init()
+                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/auto_tuning_complete.wav")
+                    pygame.mixer.music.play()
+                    while pygame.mixer.music.get_busy() == True:
+                        continue
                     self.reset()
                     continue
 
@@ -309,7 +319,7 @@ class Oven (threading.Thread):
                 ##Should we store the current run time in case of power failure?
                 ##Add to future release but where to store it to make it safe?
                 
-                log.info("pid: %.3f" % pid)
+                log.debug("pid: %.3f" % pid)
 
                 self.set_cool(pid <= -1)
                 if(pid > 0):
@@ -326,11 +336,11 @@ class Oven (threading.Thread):
                     if temperature_count > 90:
                         log.info("Error reading sensor, oven temp not responding to heat.")
                         self.reset()
-#                        pygame.mixer.init()
-#                        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/not_responding_to_heat.wav")
-#                        pygame.mixer.music.play()
-#                        while pygame.mixer.music.get_busy() == True:
-#                            continue
+                        pygame.mixer.init()
+                        pygame.mixer.music.load("/home/pi/NemesisPI/sounds/not_responding_to_heat.wav")
+                        pygame.mixer.music.play()
+                        while pygame.mixer.music.get_busy() == True:
+                            continue
                         self.set_beeper(True)
                         time.sleep(30.0)
                         self.reset()
@@ -370,12 +380,12 @@ class Oven (threading.Thread):
                 if(self.temp_sensor.temperature + config.thermocouple_offset >= config.emergency_shutoff_temp):
                     log.info("Warning! Temperature above emergency shut off temp set in config, Stopping to protect your device")
                     self.reset()
-#                    pygame.mixer.init()
-#                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/high_limit_reached.wav")
-#                    pygame.mixer.music.play()
-#                    while pygame.mixer.music.get_busy() == True:
-#                        self.reset()
-#                        continue
+                    pygame.mixer.init()
+                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/high_limit_reached.wav")
+                    pygame.mixer.music.play()
+                    while pygame.mixer.music.get_busy() == True:
+                        self.reset()
+                        continue
 
                 # Bung Warning Temperature need image onscreen sound aswell hmm and a servo
                 if(self.temp_sensor.temperature + config.thermocouple_offset >= config.bung_temp):
@@ -384,11 +394,11 @@ class Oven (threading.Thread):
 
                 if self.runtime >= self.totaltime:
                     self.reset()
-#                    pygame.mixer.init()
-#                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/run_complete.wav")
-#                    pygame.mixer.music.play()
-#                    while pygame.mixer.music.get_busy() == True:
-#                        continue
+                    pygame.mixer.init()
+                    pygame.mixer.music.load("/home/pi/NemesisPI/sounds/run_complete.wav")
+                    pygame.mixer.music.play()
+                    while pygame.mixer.music.get_busy() == True:
+                        continue
                     self.set_beeper(True)
                     time.sleep(15.0)
                     self.reset()
@@ -612,11 +622,11 @@ class TempSensorReal(TempSensor):
             except Exception:
                 self.temperature = lasttemp
                 log.exception("problem reading temp")
-#                pygame.mixer.init()
-#                pygame.mixer.music.load("/home/pi/NemesisPI/sounds/sensor_read_fail_no_connection.wav")
-#                pygame.mixer.music.play()
-#                while pygame.mixer.music.get_busy() == True:
-#                    continue
+                pygame.mixer.init()
+                pygame.mixer.music.load("/home/pi/NemesisPI/sounds/sensor_read_fail_no_connection.wav")
+                pygame.mixer.music.play()
+                while pygame.mixer.music.get_busy() == True:
+                    continue
             time.sleep(self.time_step)
 
 
@@ -665,7 +675,7 @@ class TempSensorSimulate(TempSensor):
 
             #temperature change of oven by cooling to env
             t -= p_env * self.time_step / c_oven
-            log.info("energy sim: -> %dW heater: %.0f -> %dW oven: %.0f -> %dW env" % (int(p_heat * self.oven.heat), t_h, int(p_ho), t, int(p_env)))
+            log.debug("energy sim: -> %dW heater: %.0f -> %dW oven: %.0f -> %dW env" % (int(p_heat * self.oven.heat), t_h, int(p_ho), t, int(p_env)))
             self.temperature = t
 
             time.sleep(self.sleep_time)
@@ -681,8 +691,8 @@ class Profile():
 
         self.tempunit = obj["TempUnit"]
         self.timeunit = obj["TimeUnit"]
-        log.info(self.tempunit)
-        log.info(self.timeunit)
+        log.debug(self.tempunit)
+        log.debug(self.timeunit)
 
         #Convert these to seconds/Celsius
         tconv = 60 if (self.timeunit == "m") else 3600 if (self.timeunit == "h") else 1
@@ -740,11 +750,11 @@ class Profile():
             return datetime.timedelta() #Start at the beginning
         elif temperature > max([x for (t, x) in self.data]):
             log.exception("Current temperature is higher than max profile point! Cannot resume.")
-#            pygame.mixer.init()
-#            pygame.mixer.music.load("/home/pi/NemesisPI/sounds/resume_error.wav")
-#            pygame.mixer.music.play()
-#            while pygame.mixer.music.get_busy() == True:
-#                continue
+            pygame.mixer.init()
+            pygame.mixer.music.load("/home/pi/NemesisPI/sounds/resume_error.wav")
+            pygame.mixer.music.play()
+            while pygame.mixer.music.get_busy() == True:
+                continue
             return None
         else:
             for index in range(1, len(self.data)):
@@ -758,8 +768,8 @@ class Profile():
                     continue
 
 
-    def get_target_temperature(self, time, currtemp = 10000):
-
+    def get_target_temperature(self, time, currtemp):
+        self.targethit = [False] * len(self.data)
         (prev_point, next_point) = self.get_surrounding_points(time)
         index = self.get_index_of_time(prev_point[0])
 
@@ -769,21 +779,24 @@ class Profile():
                 #This adjustment is to maintain constant heat soaking
 
         #This is only enabled if must_hit_temp is set. Check if previous target has been hit already
-        if config.must_hit_temp and not self.targethit[index]:
+        if config.must_hit_temp and not self.targethit[False]:
 
             if self.is_rising(prev_point[0]) and currtemp > (prev_point[1]-5):
                 #If not, see if we just hit it now
                 self.targethit[index] = True
+                #self.targethit[index] = [False] * len(self.data)
             elif not self.is_rising(prev_point[0]):
                 #if temperature was going down, don't worry about it
                 self.targethit[index] = True
-
+                #self.targethit[index] = [False] * len(self.data)
             else:
+
+                #self.targethit[index] = [False] * len(self.data)
                 #in this case, modify our profile to push the timing out
+                
+
+                (prev_point, next_point) = self.get_surrounding_points(prev_point[0])
                 delay = time - prev_point[0]
-
-                (prev_prev_point, prev_point) = self.get_surrounding_points(prev_point[0])
-
                 #Push the previous target and all future targets out in time
                 for P in self.data[index:]:
                     P[0] = P[0] + delay
@@ -792,19 +805,15 @@ class Profile():
                 if self.data[index][1] >= max([x for (t, x) in self.data]):
                     #Determine original slope
                     #Determine new slope
-                    oldslope = (prev_point[1] - prev_prev_point[1]) / (prev_point[0] - prev_prev_point[0])
-                    #Push the previous target and all future targets out in time
-                    for P in self.data[index:]:
-                        P[0] = P[0] + delay
-
-                    newslope = (prev_point[1]-prev_prev_point[1]) / (prev_point[0]+delay-prev_prev_point[0])
+                    oldslope = (next_point[1] - prev_point[1]) / (next_point[0] - prev_point[0])
+                    newslope = (next_point[1] - prev_point[1]) / (next_point[0] + delay - prev_point[0])
 
                     #Calculation of new endpoint: old endpoint - change in slope(C/hr) * cone adj rate (C / (C/hr))
                     self.data[index][1]  = prev_point[1]- (config.cone_slope_adj*3600.0) * (oldslope-newslope)
-
-                    log.debug("prev_prev_point: %.2f, %.2f, prev_point: %.2f, %.2f, old slope: %.8f, new slope: %.8f, index: %.0f",
-                        prev_prev_point[0], prev_prev_point[1],
+                    #self.targethit[index] = [False] * len(self.data)
+                    log.debug("next_point: %.2f, %.2f, prev_point: %.2f, %.2f, old slope: %.8f, new slope: %.8f, index: %.0f",
                         prev_point[0], prev_point[1],
+                        next_point[0], next_point[1],
                         oldslope, newslope, index)
 
                 return self.data[index][1]

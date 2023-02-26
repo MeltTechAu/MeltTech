@@ -4,7 +4,7 @@ import os
 import sys
 import logging
 import json
-#import pygame
+import pygame
 import bottle
 import gevent
 import geventwebsocket
@@ -55,6 +55,8 @@ def handle_api():
         wanted = bottle.request.json['profile']
         log.info('api requested run of profile = %s' % wanted)
 
+        # start at a specific minute in the schedule
+        # for restarting and skipping over early parts of a schedule
         startat = 0
         if 'startat' in bottle.request.json:
             startat = bottle.request.json['startat']
@@ -180,7 +182,7 @@ def handle_storage():
             message = wsock.receive()
             if not message:
                 break
-            log.info("websocket (storage) received: %s" % message)
+            log.debug("websocket (storage) received: %s" % message)
 
             try:
                 msgdict = json.loads(message)
@@ -207,7 +209,7 @@ def handle_storage():
                         msgdict["resp"] = "OK"
                     else:
                         msgdict["resp"] = "FAIL"
-                    log.info("websocket (storage) sent: %s" % message)
+                    log.debug("websocket (storage) sent: %s" % message)
 
                     wsock.send(json.dumps(msgdict))
                     wsock.send(get_profiles())
@@ -285,6 +287,7 @@ def get_config():
         "time_scale_profile": config.time_scale_profile,
         "kwh_rate": config.kwh_rate,
         "oven_power": config.oven_power,
+
         "currency_type": config.currency_type})    
       
    

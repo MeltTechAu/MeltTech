@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=MeltTech
 Comment=MeltTech Temp controller BP 2022
-Icon=/home/pi/MeltTech/public/assets/images/MeltTech.xpm
-Exec=/usr/bin/python /home/pi/MeltTech/picoreflowd.py
+Icon=/home/melttech/MeltTech/public/assets/images/MeltTech.xpm
+Exec=/usr/bin/python /home/melttech/MeltTech/picoreflowd.py
 Type=Application
 Encoding=UTF-8
 Terminal=true
